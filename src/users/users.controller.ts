@@ -14,15 +14,18 @@ export class UsersController {
 
   @Post('/login') // 카카오 인가코드 회신
   async login(@Body() body: any, @Response() res: any): Promise<any> {
+	  
     try {
-      // const { code, domain } = body;
-      const { code } = body;
-      if (!code) {
+      // const { authCode, domain } = body;
+      const { authCode } = body;
+      console.log(authCode)
+      console.log(body);
+      if (!authCode) {
         throw new BadRequestException('카카오 정보가 없습니다');
       }
       //
-      // const kakao = await this.usersService.kakaoLogin({ code, domain });
-      const kakao = await this.usersService.kakaoLogin({ code });
+      // const kakao = await this.usersService.kakaoLogin({ authCode, domain });
+      const kakao = await this.usersService.kakaoLogin({ authCode });
 
       console.log(`kakaoUserInfo : ${JSON.stringify(kakao)}`);
       if (!kakao.id) {

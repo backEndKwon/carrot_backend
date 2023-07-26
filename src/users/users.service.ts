@@ -4,9 +4,9 @@ import * as qs from 'qs';
 
 @Injectable()
 export class UsersService {
-  async kakaoLogin(options: { code: string }): Promise<any> {
+  async kakaoLogin(options: { authCode: string }): Promise<any> {
     // const { code, domain } = options;
-    const { code } = options;
+    const { authCode } = options;
     const kakaoKey = 'f5e1a07602f990e33e12b2ce3fb5d248';
     const kakaoTokenUrl = 'https://kauth.kakao.com/oauth/token'; //토큰받기
     const kakaoUserInfoUrl = 'https://kapi.kakao.com/v2/user/me'; //사용자정보받기
@@ -15,8 +15,8 @@ export class UsersService {
       grant_type: 'authorization_code',
       client_id: kakaoKey,
       // redirect_uri: `${domain}/kakao-callback`,
-      redirect_uri: `http://localhost:3000/auth/kakaoRedirect`, //인가코드가 리다이렉트된 URI
-      code, //프론트로부터 받은 인가코드
+      redirect_uri: "http://localhost:3000/auth/kakaoRedirect", //인가코드가 리다이렉트된 URI
+      code: authCode, //프론트로부터 받은 인가코드
     };
     const headers = {
       'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
