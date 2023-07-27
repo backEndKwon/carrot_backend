@@ -21,10 +21,12 @@ export class UsersRepository extends Repository<UsersEntity> {
     console.log('repository/사용자 정보 저장완료');
 
     const usersInfo = this.create({
-      email: kakao.email,
-      nickname: kakao.nickname,
-      profile: kakao.profile,
+      email: kakao.kakao_account.email,
+      nickname: kakao.properties.nickname,
+      profile: kakao.properties.profile_image,
     });
+
+
     console.log('repository/saveUser===', usersInfo);
     return await this.save(usersInfo);
   }

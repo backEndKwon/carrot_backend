@@ -30,7 +30,7 @@ export class UsersService {
       grant_type: 'authorization_code',
       client_id: kakaoKey,
       // redirect_uri: `${domain}/kakao-callback`,
-      redirect_uri: 'http://localhost:3000/auth/kakaoRedirect', //인가코드가 리다이렉트된 URI
+      redirect_uri: 'https://carrot-three.vercel.app/auth/kakaoRedirect', //인가코드가 리다이렉트된 URI
       code: authCode, //프론트로부터 받은 인가코드
     };
     const headers = {
@@ -52,8 +52,8 @@ export class UsersService {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
           Authorization: 'Bearer ' + response.data.access_token,
         };
-        console.log(`url : ${kakaoTokenUrl}`);
-        console.log(`headers : ${JSON.stringify(headerUserInfo)}`);
+        // console.log(`url : ${kakaoTokenUrl}`);
+        // console.log(`headers : ${JSON.stringify(headerUserInfo)}`);
 
         const responseUserInfo = await axios({
           method: 'GET',
@@ -65,9 +65,11 @@ export class UsersService {
         console.log(`responseUserInfo.status : ${responseUserInfo.status}`);
         if (responseUserInfo.status === 200) {
           console.log(
-            `kakaoUserInfo : ${JSON.stringify(responseUserInfo.data)}`,
+            `S/kakaoUserInfo : ${JSON.stringify(responseUserInfo.data)}`,
           );
-          await this.usersRepository.saveUserInfo(responseUserInfo.data);
+          await this.usersRepository.saveUserInfo(
+            JSON.stringify(responseUserInfo.data),
+          );
           //
 
           // const email = responseUserInfo.data.email;
