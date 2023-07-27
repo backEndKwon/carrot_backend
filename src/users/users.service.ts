@@ -91,9 +91,9 @@ export class UsersService {
     }
   }
 
-  async findEmailAndUserId(email: string): Promise<UsersEntity | boolean> {
-    return await this.usersRepository.findEmailAndUserId(email);
-  }
+  // async findEmailAndUserId(email: string): Promise<UsersEntity | boolean> {
+  //   return await this.usersRepository.findEmailAndUserId(email);
+  // }
   async saveUserInfo(kakao): Promise<UsersEntity> {
     return await this.usersRepository.saveUserInfo(kakao);
   }
