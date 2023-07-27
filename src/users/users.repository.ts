@@ -20,7 +20,9 @@ export class UsersRepository extends Repository<UsersEntity> {
   async saveUserInfo(kakao: any): Promise<UsersEntity> {
     const kakao_info = JSON.parse(kakao);
     const email = kakao_info.kakao_account.email;
-    if (!email) {
+    const isEmail = await this.findOne({ where: { email } });
+    console.log('isEmail, db내 이메일 있습니까????', isEmail);
+    if (!isEmail) {
       const usersInfo = this.create({
         email: kakao_info.kakao_account.email,
         nickname: kakao_info.properties.nickname,

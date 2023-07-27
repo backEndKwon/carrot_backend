@@ -2,6 +2,7 @@ import {
   Controller,
   Post,
   Get,
+  Req,
   Body,
   Response,
   BadRequestException,
@@ -39,7 +40,7 @@ export class UsersController {
       //-------------------------------------------//
 
       //---카카오 인증 완료후 사용자 정보 저장
-      console.log("controller/email====", kakao.kakao_account.email)       
+      console.log('controller/email====', kakao.kakao_account.email);
       const isEmailAndUserId = await this.usersService.findEmailAndUserId(
         kakao.kakao_account.email,
       );
@@ -62,8 +63,10 @@ export class UsersController {
       throw new UnauthorizedException('로그인 실패');
     }
   }
+
   // @Get('/user')
-  // async user(){
-  //   return "유저정보"
+  // async user(@Req() request): Promise<any> {
+  //   const accessToken = request.headers.authorization.replace('Bearer ', '');
+  //   return this.usersService.getUserInfo(accessToken);
   // }
 }
