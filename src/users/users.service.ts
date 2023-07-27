@@ -1,9 +1,24 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import axios from 'axios';
 import * as qs from 'qs';
+import { UsersEntity } from './users.entity';
+import { UsersRepository } from './users.repository';
+import { JwtService } from '@nestjs/jwt/dist';
+// import { access } from 'fs';
+// import { KakaoLoginAuthOutputDto } from 'src/common/dtos/kakao-login-auth.dto';
 
 @Injectable()
 export class UsersService {
+  constructor(
+    private readonly usersRepository: UsersRepository,
+    private readonly jwtService: JwtService,
+  ) {}
+
   async kakaoLogin(options: { authCode: string }): Promise<any> {
     // const { code, domain } = options;
     const { authCode } = options;
@@ -52,7 +67,16 @@ export class UsersService {
           console.log(
             `kakaoUserInfo : ${JSON.stringify(responseUserInfo.data)}`,
           );
-          return responseUserInfo.data;
+          await this.usersRepository.saveUserInfo(responseUserInfo.data);
+          //
+
+          // const email = responseUserInfo.data.email;
+          // const accessToken = this.getAccessToken(email);
+          // return accessToken;
+
+          //
+
+          return responseUserInfo.data; //accessToken으로 변경
         } else {
           throw new UnauthorizedException();
         }
@@ -61,6 +85,28 @@ export class UsersService {
       }
     } catch (error) {
       console.log(error);
+      throw new UnauthorizedException();
+    }
+  }
+
+  async findEmailAndUserId(email: string): Promise<UsersEntity | boolean> {
+    return await this.usersRepository.findEmailAndUserId(email);
+  }
+  async saveUserInfo(kakao): Promise<UsersEntity> {
+    return await this.usersRepository.saveUserInfo(kakao);
+  }
+
+  async accessToken(kakao): Promise<any> {
+    try {
+      const payload = {
+        email: kakao.email,
+      };
+
+      return {
+        access_token: this.jwtService.sign(payload),
+      };
+    } catch (error) {
+      console.log('service/accessToken 발급==', error);
       throw new UnauthorizedException();
     }
   }

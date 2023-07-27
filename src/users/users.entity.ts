@@ -5,7 +5,6 @@ import {
   BaseEntity,
   CreateDateColumn,
   OneToMany,
-  JoinColumn,
 } from 'typeorm';
 import { PostsEntity } from '../posts/posts.entity';
 
