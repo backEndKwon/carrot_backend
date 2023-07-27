@@ -30,7 +30,7 @@ export class UsersService {
       grant_type: 'authorization_code',
       client_id: kakaoKey,
       // redirect_uri: `${domain}/kakao-callback`,
-      redirect_uri: 'https://carrot-three.vercel.app/auth/kakaoRedirect', //인가코드가 리다이렉트된 URI
+      redirect_uri: 'http://localhost:3000/auth/kakaoRedirect', //인가코드가 리다이렉트된 URI
       code: authCode, //프론트로부터 받은 인가코드
     };
     const headers = {
@@ -99,9 +99,10 @@ export class UsersService {
   }
 
   async accessToken(kakao): Promise<any> {
+	  console.log("accessToken: ", kakao.kakao_account.email);
     try {
       const payload = {
-        email: kakao.email,
+        email: kakao.kakao_account.email,
       };
 
       return {
