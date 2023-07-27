@@ -9,13 +9,13 @@ export class UsersRepository extends Repository<UsersEntity> {
     super(UsersEntity, dataSource.createEntityManager());
   }
 
-  // async findEmailAndUserId(email: string): Promise<UsersEntity | boolean> {
-  //   const user = await this.findOne({ where: { email } });
-  //   if (user) {
-  //     return false;
-  //   }
-  //   return true;
-  // }
+  async findEmailAndUserId(email: string): Promise<UsersEntity | boolean> {
+    const user = await this.findOne({ where: { email } });
+    if (user) {
+      return false;
+    }
+    return true;
+  }
 
   async saveUserInfo(kakao: any): Promise<UsersEntity> {
     const kakao_info = JSON.parse(kakao);

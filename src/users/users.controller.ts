@@ -40,16 +40,16 @@ export class UsersController {
 
       //---카카오 인증 완료후 사용자 정보 저장
       console.log("controller/email====", kakao.kakao_account.email)       
-      // const isEmailAndUserId = await this.usersService.findEmailAndUserId(
-      //   kakao.kakao_account.email,
-      // );
+      const isEmailAndUserId = await this.usersService.findEmailAndUserId(
+        kakao.kakao_account.email,
+      );
 
-      // if (!isEmailAndUserId) {
-      //   console.log('기 가입 사용자');
-      // } else {
+      if (!isEmailAndUserId) {
+        console.log('기 가입 사용자');
+      } else {
         await this.usersService.saveUserInfo(kakao);
-      //   console.log('controller/사용자 정보 저장완료');
-      // }
+        console.log('controller/사용자 정보 저장완료');
+      }
 
       ///자체 accessToken 발급
       const accessToken = await this.usersService.accessToken(kakao);
