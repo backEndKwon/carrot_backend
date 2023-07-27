@@ -45,18 +45,12 @@ export class UsersController {
         kakao.kakao_account.email,
       );
 
-      if (!isEmailAndUserId) {
-        console.log('기 가입 사용자');
-      } else {
-        await this.usersService.saveUserInfo(kakao);
-        console.log('controller/사용자 정보 저장완료');
-      }
+      const accessToekn = await this.usersService.saveUserInfo(kakao);
 
       ///자체 accessToken 발급
       const accessToken = await this.usersService.accessToken(kakao);
       res.send({
-        accessToken,
-        message: 'success',
+        accessToekn,
       });
     } catch (error) {
       console.log(error);
@@ -64,9 +58,12 @@ export class UsersController {
     }
   }
 
-  // @Get('/user')
-  // async user(@Req() request): Promise<any> {
-  //   const accessToken = request.headers.authorization.replace('Bearer ', '');
-  //   return this.usersService.getUserInfo(accessToken);
-  // }
+  @Get('/user')
+  async user(@Req() request, @Body() body: any): Promise<any> {
+    const accessToken = request.headers.Authorization.replace('Bearer ', '');
+    const { userId } = body;
+    console.log('controller/userId', userId);
+    const checkInfo = { accessToken, userId };
+    return this.usersService.getUserInfo(checkInfo);
+  }
 }
