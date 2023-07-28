@@ -119,6 +119,8 @@ export class UsersService {
     const decodedToken = this.jwtService.decode(accesstoken);
     const userEmail = decodedToken['email'];
 
+    console.log("=================디코드토큰================",decodedToken)
+    console.log("==============이메일======================",userEmail)
     if (!userEmail) {
       //accessToken에 email없을경우
       console.log('decode token쪽 a-error)');
@@ -133,6 +135,7 @@ export class UsersService {
       }
     }
   }
+
 
   //   async tokenValidateUser(payload: any): Promise<any> {
   //     return await this.usersRepository.tokenValidateUser(payload);

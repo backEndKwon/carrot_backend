@@ -63,8 +63,12 @@ export class UsersController {
   @Get('/user')
   async user(@Req() req): Promise<any> {
     const { authorization } = req.headers;
-    const result = this.usersService.verifyTokenAndUserInfo(authorization);
-    return result;
+console.log("authorizaiton======================>",authorization)
+console.log("req.headers========================>", req.headers)
+    const result = await this.usersService.verifyTokenAndUserInfo(authorization);
+    console.log("result==========================>",result)
+    console.log("hi hi hi hi hi")
+    return "hi";
     // const accessToken = request.headers.Authorization.replace('Bearer ', '');
     // const { userId } = body;
     // console.log('controller/userId', userId);
