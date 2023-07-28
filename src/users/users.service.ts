@@ -98,16 +98,16 @@ export class UsersService {
   // async findEmailAndUserId(email: string): Promise<UsersEntity | boolean> {
   //   return await this.usersRepository.findEmailAndUserId(email);
   // }
-  async saveUserInfo(kakao): Promise<UsersEntity | number> {
-    return await this.usersRepository.saveUserInfo(kakao);
-  }
+  // async saveUserInfo(kakao): Promise<UsersEntity | number> {
+  //   return await this.usersRepository.saveUserInfo(kakao);
+  // }
 
-  async accessToken(kakao): Promise<any> {
-    // console.log("accessToken: ", kakao.kakao_account.email);
+  async accessToken(email:string): Promise<any> {
 
+    
     try {
       const payload = {
-        email: kakao.kakao_account.email,
+        email: email,
       };
       const access_token = this.jwtService.sign(payload); // AccessToken 생성
       console.log('service/accessToken 발급==', access_token);
@@ -115,10 +115,11 @@ export class UsersService {
         access_token: access_token,
       };
     } catch (error) {
-      console.log('service/accessToken 발급==', error);
+      console.log('service/access에러에러에러==', error);
       throw new UnauthorizedException();
     }
   }
+
   // async getUserInfo(checkInfo): Promise<any> {
   //   const user = await this.usersRepository.getUserInfo(checkInfo);
 
