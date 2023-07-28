@@ -46,7 +46,7 @@ export class UsersController {
       // );
 
       // //user정보 저장 후 user_id 반환
-      // await this.usersService.saveUserInfo(kakao);
+      await this.usersService.saveUserInfo(kakao);
 
       ///자체 accessToken 발급
       const accessToken = await this.usersService.accessToken(kakao);
@@ -59,12 +59,15 @@ export class UsersController {
     }
   }
 
-  @Get('/user')
-  async user(@Req() request, @Body() body: any): Promise<any> {
-    const accessToken = request.headers.Authorization.replace('Bearer ', '');
-    const { userId } = body;
-    console.log('controller/userId', userId);
-    const checkInfo = { accessToken, userId };
-    return await this.usersService.getUserInfo(checkInfo);
-  }
+  // @Get('/user')
+  // async user(@Req() req): Promise<any> {
+  //   const {authorization } = req.headers;
+  //   const result = this.usersService.validateAccessToken(authorization,req.user['email']);
+  //   return result;
+    // const accessToken = request.headers.Authorization.replace('Bearer ', '');
+    // const { userId } = body;
+    // console.log('controller/userId', userId);
+    // const checkInfo = { accessToken, userId };
+    // return await this.usersService.getUserInfo(checkInfo);
+  // }
 }
