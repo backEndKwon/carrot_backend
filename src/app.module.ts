@@ -11,14 +11,14 @@ import { PostsModule } from './posts/posts.module';
 import { typeORMConfig } from './configs/typeorm.config';
 import { UsersRepository } from './users/users.repository';
 import { JwtModule } from '@nestjs/jwt';
+import { PostsRepository } from './posts/posts.repository';
 @Module({
   imports: [
     TypeOrmModule.forRoot(typeORMConfig),
     UsersModule,
     PostsModule,
-    PostsModule,
   ],
   controllers: [AppController, UsersController, PostsController],
-  providers: [AppService, UsersService, PostsService, UsersRepository],
+  providers: [AppService, UsersService, PostsService, UsersRepository,PostsRepository],
 })
 export class AppModule {}
