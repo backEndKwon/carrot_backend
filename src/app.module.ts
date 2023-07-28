@@ -19,6 +19,6 @@ import { PostsRepository } from './posts/posts.repository';
     PostsModule,
   ],
   controllers: [AppController, UsersController, PostsController],
-  providers: [AppService, UsersService, PostsService, UsersRepository,PostsRepository],
+  providers: [AppService, UsersService, PostsService, UsersRepository],
 })
 export class AppModule {}

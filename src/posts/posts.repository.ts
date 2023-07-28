@@ -7,8 +7,8 @@ import { UsersRepository } from '../users/users.repository';
 @Injectable()
 export class PostsRepository extends Repository<PostsEntity> {
   constructor(
-    @InjectRepository(UsersRepository) // User 레파지토리를 주입합니다.
-    private readonly userRepository: UsersRepository,
+    // @InjectRepository(UsersRepository) // User 레파지토리를 주입합니다.
+    // private readonly userRepository: UsersRepository,
     private dataSource: DataSource,
   ) {
     super(PostsEntity, dataSource.createEntityManager());
@@ -46,17 +46,14 @@ export class PostsRepository extends Repository<PostsEntity> {
   // 4.가격입찰
   async updateBizPrice(user_id: number, post_id: number, biz_price: number) {
     const detailPost = await this.findOne({ where: { post_id: post_id } });
-    const existUser = await this.userRepository.findOne({
-      where: { user_id: user_id },
-    });
-    if (!existUser) throw new Error('존재하지 않는 유저');
+ 
 
     // post_items에 post_id를 추가합니다. (중복 방지)
-    const userInfo = await this.userRepository.findOne({ where: { user_id } });
-    if (!userInfo.post_items.includes(post_id)) {
-      userInfo.post_items.push(post_id);
-    await userInfo.save();
-    }
+    // const userInfo = await this.userRepository.findOne({ where: { user_id } });
+    // if (!userInfo.post_items.includes(post_id)) {
+    //   userInfo.post_items.push(post_id);
+    // await userInfo.save();
+    // }
 
     const bizPrize = biz_price;
     const prePrize = detailPost.biz_price;
