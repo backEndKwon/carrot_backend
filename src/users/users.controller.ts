@@ -34,7 +34,7 @@ export class UsersController {
       // 받은 인가코드로 가져온 유저정보
       const kakaoUserInfo = await this.usersService.kakaoLogin({ authCode });
 
-      console.log(`controller/kakaoUserInfo : ${JSON.parse(kakaoUserInfo)}`);
+      // console.log(`controller/kakaoUserInfo : ${JSON.parse(kakaoUserInfo)}`);
       if (!kakaoUserInfo.id) {
         throw new BadRequestException('해당 카카오 계정이 없습니다');
       }
