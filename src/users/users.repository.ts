@@ -29,10 +29,6 @@ export class UsersRepository extends Repository<UsersEntity> {
       });
       return await this.save(usersInfo);
 
-      //   console.log('repository/saveUser===================',savedUser.user_id);
-      //   return savedUser.user_id;
-      // }
-      // return existUser.user_id;
     }
   }
   async findEmail(email: string): Promise<string> {
@@ -41,10 +37,14 @@ export class UsersRepository extends Repository<UsersEntity> {
     return user.email;
   }
 
-  // async getUserInfo(checkInfo): Promise<any> {
-  //   const { accessToken, userId } = checkInfo;
-  //   const user = await this.findOne({ where: { user_id: userId } });
-  //   console.log('repository/user', user);
-  //   return user;
-  // }
+  async getUserInfo(email:string): Promise<any> {
+    const userInfo = await this.findOne({ where: { email : email } });
+    console.log('repository/user', userInfo);
+    return userInfo;
+  }
+
+  async tokenValidateUser(payload: any): Promise<any> {
+    const email = payload.email;
+     return await this.findOne({where:{email}});
+ }
 }

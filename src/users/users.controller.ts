@@ -60,15 +60,15 @@ export class UsersController {
     }
   }
 
-  // @Get('/user')
-  // async user(@Req() req): Promise<any> {
-  //   const {authorization } = req.headers;
-  //   const result = this.usersService.validateAccessToken(authorization,req.user['email']);
-  //   return result;
-  // const accessToken = request.headers.Authorization.replace('Bearer ', '');
-  // const { userId } = body;
-  // console.log('controller/userId', userId);
-  // const checkInfo = { accessToken, userId };
-  // return await this.usersService.getUserInfo(checkInfo);
-  // }
+  @Get('/user')
+  async user(@Req() req): Promise<any> {
+    const { authorization } = req.headers;
+    const result = this.usersService.verifyTokenAndUserInfo(authorization);
+    return result;
+    // const accessToken = request.headers.Authorization.replace('Bearer ', '');
+    // const { userId } = body;
+    // console.log('controller/userId', userId);
+    // const checkInfo = { accessToken, userId };
+    // return await this.usersService.getUserInfo(checkInfo);
+  }
 }

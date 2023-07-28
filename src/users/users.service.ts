@@ -74,13 +74,7 @@ export class UsersService {
               JSON.stringify(responseUserInfo.data),
             );
           }
-          //
 
-          // const email = responseUserInfo.data.email;
-          // const accessToken = this.getAccessToken(email);
-          // return accessToken;
-
-          //
           console.log('000000000000000000000000000000');
           return responseUserInfo.data; //accessToken으로 변경
         } else {
@@ -95,16 +89,7 @@ export class UsersService {
     }
   }
 
-  // async findEmailAndUserId(email: string): Promise<UsersEntity | boolean> {
-  //   return await this.usersRepository.findEmailAndUserId(email);
-  // }
-  // async saveUserInfo(kakao): Promise<UsersEntity | number> {
-  //   return await this.usersRepository.saveUserInfo(kakao);
-  // }
-
-  async accessToken(email:string): Promise<any> {
-
-    
+  async accessToken(email: string): Promise<any> {
     try {
       const payload = {
         email: email,
@@ -128,5 +113,28 @@ export class UsersService {
   //   } else {
   //     return user;
   //   }
+  // }
+
+  async verifyTokenAndUserInfo(accesstoken: string): Promise<any> {
+    const decodedToken = this.jwtService.decode(accesstoken);
+    const userEmail = decodedToken['email'];
+
+    if (!userEmail) {
+      //accessToken에 email없을경우
+      console.log('decode token쪽 a-error)');
+      throw new UnauthorizedException();
+    } else {
+      const existUserEmail = await this.usersRepository.findEmail(userEmail);
+      if (!existUserEmail) {
+        console.log('decode token쪽 b-error)');
+        throw new UnauthorizedException();
+      } else {
+        return await this.usersRepository.getUserInfo(userEmail);
+      }
+    }
+  }
+
+  //   async tokenValidateUser(payload: any): Promise<any> {
+  //     return await this.usersRepository.tokenValidateUser(payload);
   // }
 }

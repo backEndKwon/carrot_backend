@@ -5,11 +5,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersRepository } from './users.repository';
 import { JwtModule } from '@nestjs/jwt';
 import { UsersEntity } from './users.entity';
+import { PassportModule } from '@nestjs/passport';
+
 @Module({
   imports: [
     JwtModule.register({ secret: "secret",
-    signOptions:{expiresIn:"10s"}}),
+    signOptions:{expiresIn:"60000000s"}}),
     TypeOrmModule.forFeature([UsersRepository, UsersEntity]),
+    PassportModule
   ],
   controllers: [UsersController],
   providers: [UsersService],
