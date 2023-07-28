@@ -10,6 +10,7 @@ import { UsersEntity } from './users.entity';
 import { UsersRepository } from './users.repository';
 import { JwtService } from '@nestjs/jwt/dist';
 import { get } from 'http';
+import { IsEmail } from 'class-validator';
 // import { access } from 'fs';
 // import { KakaoLoginAuthOutputDto } from 'src/common/dtos/kakao-login-auth.dto';
 
@@ -48,14 +49,12 @@ export class UsersService {
       if (response.status === 200) {
         //토큰을 받았을 경우
         console.log(`kakaoToken : ${JSON.stringify(response.data)}`);
-        // Token 을 가져왔을 경우 사용자 정보 조회
         const headerUserInfo = {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
           Authorization: 'Bearer ' + response.data.access_token,
         };
-        // console.log(`url : ${kakaoTokenUrl}`);
-        // console.log(`headers : ${JSON.stringify(headerUserInfo)}`);
 
+        //사용자 정보 가져오기
         const responseUserInfo = await axios({
           method: 'GET',
           url: kakaoUserInfoUrl,
@@ -68,12 +67,12 @@ export class UsersService {
           console.log(
             `S/kakaoUserInfo : ${JSON.stringify(responseUserInfo.data)}`,
           );
-          const kakaoData = JSON.parse(responseUserInfo.data);
-          const existEmail = await this.usersRepository.findEmail(
-            kakaoData.kakao_account.email,
-          );
-          if (!existEmail) {
-            await this.usersRepository.saveUserInfo(kakaoData);
+          const email = responseUserInfo.data.kakao_account.email;
+          const existUser = await this.usersRepository.findEmail(email);
+          if (!existUser) {
+            await this.usersRepository.saveUserInfo(
+              JSON.stringify(responseUserInfo.data),
+            );
           }
           //
 
@@ -99,34 +98,35 @@ export class UsersService {
   // async findEmailAndUserId(email: string): Promise<UsersEntity | boolean> {
   //   return await this.usersRepository.findEmailAndUserId(email);
   // }
-  async saveUserInfo(kakao_info: any): Promise<UsersEntity> {
-    return await this.usersRepository.saveUserInfo(kakao_info);
+  async saveUserInfo(kakao): Promise<UsersEntity | number> {
+    return await this.usersRepository.saveUserInfo(kakao);
   }
 
-  async accessToken(email: string): Promise<any> {
+  async accessToken(kakao): Promise<any> {
     // console.log("accessToken: ", kakao.kakao_account.email);
+
     try {
       const payload = {
-        email: email,
+        email: kakao.kakao_account.email,
       };
       const access_token = this.jwtService.sign(payload); // AccessToken 생성
 
-      return {
-        access_token: access_token,
-      };
+       return {
+          access_token: access_token,
+        };
+      
     } catch (error) {
       console.log('service/accessToken 발급==', error);
       throw new UnauthorizedException();
     }
   }
+  // async getUserInfo(checkInfo): Promise<any> {
+  //   const user = await this.usersRepository.getUserInfo(checkInfo);
 
-  //   async getUserInfo(checkInfo): Promise<any> {
-  //     const user = await this.usersRepository.getUserInfo(checkInfo);
-
-  //     if (!user) {
-  //       throw new NotFoundException('사용자 정보가 없습니다');
-  //     } else {
-  //       return user;
-  //     }
+  //   if (!user) {
+  //     throw new NotFoundException('사용자 정보가 없습니다');
+  //   } else {
+  //     return user;
   //   }
+  // }
 }

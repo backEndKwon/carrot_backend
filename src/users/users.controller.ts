@@ -31,10 +31,11 @@ export class UsersController {
       }
       //
       // const kakao = await this.usersService.kakaoLogin({ authCode, domain });
-      const kakao = await this.usersService.kakaoLogin({ authCode });
+      // 받은 인가코드로 가져온 유저정보
+      const kakaoUserInfo = await this.usersService.kakaoLogin({ authCode });
 
-      console.log(`controller/kakaoUserInfo : ${JSON.stringify(kakao)}`);
-      if (!kakao.id) {
+      console.log(`controller/kakaoUserInfo : ${JSON.parse(kakaoUserInfo)}`);
+      if (!kakaoUserInfo.id) {
         throw new BadRequestException('해당 카카오 계정이 없습니다');
       }
       //-------------------------------------------//
@@ -45,11 +46,7 @@ export class UsersController {
       //   kakao.kakao_account.email,
       // );
 
-      const kakao_info = JSON.parse(JSON.stringify(kakao));
-    const email = kakao_info.kakao_account.email; //카카오 이메일
-      
-      // //user정보 저장 후 user_id 반환
-      await this.usersService.saveUserInfo(kakao_info);
+      const email = kakaoUserInfo.kakao_account.email; //카카오 이메일
 
       ///자체 accessToken 발급
       const accessToken = await this.usersService.accessToken(email);
@@ -67,10 +64,10 @@ export class UsersController {
   //   const {authorization } = req.headers;
   //   const result = this.usersService.validateAccessToken(authorization,req.user['email']);
   //   return result;
-    // const accessToken = request.headers.Authorization.replace('Bearer ', '');
-    // const { userId } = body;
-    // console.log('controller/userId', userId);
-    // const checkInfo = { accessToken, userId };
-    // return await this.usersService.getUserInfo(checkInfo);
+  // const accessToken = request.headers.Authorization.replace('Bearer ', '');
+  // const { userId } = body;
+  // console.log('controller/userId', userId);
+  // const checkInfo = { accessToken, userId };
+  // return await this.usersService.getUserInfo(checkInfo);
   // }
 }

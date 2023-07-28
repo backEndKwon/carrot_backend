@@ -8,7 +8,7 @@ import { UsersEntity } from './users.entity';
 @Module({
   imports: [
     JwtModule.register({ secret: "secret",
-    signOptions:{expiresIn:"6000s"}}),
+    signOptions:{expiresIn:"10s"}}),
     TypeOrmModule.forFeature([UsersRepository, UsersEntity]),
   ],
   controllers: [UsersController],
