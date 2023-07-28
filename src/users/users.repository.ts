@@ -17,7 +17,7 @@ export class UsersRepository extends Repository<UsersEntity> {
   //   return true;
   // }
 
-  async saveUserInfo(kakao_info:any): Promise<UsersEntity> {
+  async saveUserInfo(kakao_info:any): Promise<any> {
     const email = kakao_info.kakao_account.email
     const existUser = await this.findOne({ where: { email } }); //db내 이메일 있는지 확인
     console.log('repo/existUser======================', existUser);
@@ -35,15 +35,15 @@ export class UsersRepository extends Repository<UsersEntity> {
       // return existUser.user_id;
     }
   }
-  async findUserId(email: string): Promise<number> {
+  async findEmail(email: string): Promise<string> {
     const user = await this.findOne({ where: { email } });
-    return user.user_id;
+    return user.email;
   }
 
-  async getUserInfo(checkInfo): Promise<any> {
-    const { accessToken, userId } = checkInfo;
-    const user = await this.findOne({ where: { user_id: userId } });
-    console.log('repository/user', user);
-    return user;
-  }
+  // async getUserInfo(checkInfo): Promise<any> {
+  //   const { accessToken, userId } = checkInfo;
+  //   const user = await this.findOne({ where: { user_id: userId } });
+  //   console.log('repository/user', user);
+  //   return user;
+  // }
 }
