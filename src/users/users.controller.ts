@@ -40,10 +40,10 @@ export class UsersController {
       //-------------------------------------------//
 
       //---카카오 인증 완료후 사용자 정보 저장
-      console.log('controller/email====', kakao.kakao_account.email);
-      const isEmailAndUserId = await this.usersService.findEmailAndUserId(
-        kakao.kakao_account.email,
-      );
+      // console.log('controller/email====', kakao.kakao_account.email);
+      // const isEmailAndUserId = await this.usersService.findEmailAndUserId(
+      //   kakao.kakao_account.email,
+      // );
 
       //await this.usersService.saveUserInfo(kakao);
 

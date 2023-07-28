@@ -9,30 +9,31 @@ export class UsersRepository extends Repository<UsersEntity> {
     super(UsersEntity, dataSource.createEntityManager());
   }
 
-  async findEmailAndUserId(email: string): Promise<UsersEntity | boolean> {
-    const user = await this.findOne({ where: { email } });
-    if (user) {
-      return false;
-    }
-    return true;
-  }
+  // async findEmailAndUserId(email: string): Promise<UsersEntity | boolean> {
+  //   const user = await this.findOne({ where: { email } });
+  //   if (user) {
+  //     return false;
+  //   }
+  //   return true;
+  // }
 
-  async saveUserInfo(kakao: any): Promise<UsersEntity | number> {
+  async saveUserInfo(kakao: any): Promise<number> {
     const kakao_info = JSON.parse(kakao);
-    const email = kakao_info.kakao_account.email;//카카오 이메일
-    const isEmail = await this.findOne({ where: { email } });//db내 이메일 있는지 확인
-    console.log('isEmail, db내 이메일 있습니까????', isEmail);
-    if (!isEmail) {
+    const email = kakao_info.kakao_account.email; //카카오 이메일
+    const existUser = await this.findOne({ where: { email } }); //db내 이메일 있는지 확인
+    console.log('repo/existUser', existUser);
+    if (!existUser) {
       const usersInfo = this.create({
         email: kakao_info.kakao_account.email,
         nickname: kakao_info.properties.nickname,
         profile: kakao_info.properties.profile_image,
       });
+      const savedUser = await this.save(usersInfo);
 
       console.log('repository/saveUser check');
-      await this.save(usersInfo);
-      return isEmail.user_id;
+      return savedUser.user_id;
     }
+    return existUser.user_id;
   }
 
   async getUserInfo(checkInfo): Promise<any> {

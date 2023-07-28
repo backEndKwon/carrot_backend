@@ -92,15 +92,16 @@ export class UsersService {
     }
   }
 
-  async findEmailAndUserId(email: string): Promise<UsersEntity | boolean> {
-    return await this.usersRepository.findEmailAndUserId(email);
-  }
-  async saveUserInfo(kakao): Promise<UsersEntity|number> {
-    return await this.usersRepository.saveUserInfo(kakao);
-  }
+  // async findEmailAndUserId(email: string): Promise<UsersEntity | boolean> {
+  //   return await this.usersRepository.findEmailAndUserId(email);
+  // }
+  // async saveUserInfo(kakao): Promise<UsersEntity|number> {
+  //   return await this.usersRepository.saveUserInfo(kakao);
+  // }
 
   async accessToken(kakao): Promise<any> {
     // console.log("accessToken: ", kakao.kakao_account.email);
+    
     try {
       const payload = {
         email: kakao.kakao_account.email,
@@ -120,10 +121,10 @@ export class UsersService {
   }
   async getUserInfo(checkInfo): Promise<any> {
     const user = await this.usersRepository.getUserInfo(checkInfo);
- 
-    if(!user){
+
+    if (!user) {
       throw new NotFoundException('사용자 정보가 없습니다');
-    }else{
+    } else {
       return user;
     }
   }
