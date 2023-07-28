@@ -69,7 +69,7 @@ console.log("req.headers========================>", req.headers)
     const result = await this.usersService.verifyTokenAndUserInfo(token);
     console.log("result==========================>",result)
     console.log("hi hi hi hi hi")
-    return "hi";
+    return result;
     // const accessToken = request.headers.Authorization.replace('Bearer ', '');
     // const { userId } = body;
     // console.log('controller/userId', userId);
