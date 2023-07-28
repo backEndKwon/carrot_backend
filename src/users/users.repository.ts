@@ -36,6 +36,7 @@ export class UsersRepository extends Repository<UsersEntity> {
     }
   }
   async findEmail(email: string): Promise<string> {
+    console.log("---------------------------------------")
     const user = await this.findOne({ where: { email } });
     return user.email;
   }

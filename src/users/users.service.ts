@@ -81,7 +81,7 @@ export class UsersService {
           // return accessToken;
 
           //
-
+          console.log('000000000000000000000000000000');
           return responseUserInfo.data; //accessToken으로 변경
         } else {
           throw new UnauthorizedException();
@@ -110,11 +110,10 @@ export class UsersService {
         email: kakao.kakao_account.email,
       };
       const access_token = this.jwtService.sign(payload); // AccessToken 생성
-
-       return {
-          access_token: access_token,
-        };
-      
+      console.log('service/accessToken 발급==', access_token);
+      return {
+        access_token: access_token,
+      };
     } catch (error) {
       console.log('service/accessToken 발급==', error);
       throw new UnauthorizedException();

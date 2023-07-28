@@ -47,9 +47,10 @@ export class UsersController {
       // );
 
       const email = kakaoUserInfo.kakao_account.email; //카카오 이메일
-
+      console.log('controller/email====', email);
       ///자체 accessToken 발급
       const accessToken = await this.usersService.accessToken(email);
+      console.log('controller/accessToken', accessToken);
       res.send({
         accessToken,
       });
