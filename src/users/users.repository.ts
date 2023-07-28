@@ -47,4 +47,6 @@ export class UsersRepository extends Repository<UsersEntity> {
     const email = payload.email;
      return await this.findOne({where:{email}});
  }
+
+ 
 }
