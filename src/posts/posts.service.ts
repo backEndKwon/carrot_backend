@@ -10,8 +10,8 @@ export class PostsService {
     title: string,
     content: string,
     min_price: number,
-    photo_ip: string,
-    dueToDate: Date,
+    photo_ip: string[],
+    dueToDate: string,
   ): Promise<any> {
     if (!title) throw new Error('제목 필수');
     if (!content) throw new Error('내용 필수');

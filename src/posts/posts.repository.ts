@@ -19,15 +19,15 @@ export class PostsRepository extends Repository<PostsEntity> {
     title: string,
     content: string,
     min_price: number,
-    photo_ip: string,
-    dueToDate : Date,
+    photo_ip: string[],
+    dueToDate : string,
   ): Promise<any> {
     const savePost = this.create({
-      title: title,
-      content: content,
-      min_price: min_price,
-      photo_ip: photo_ip,
-      dueToDate: dueToDate,
+      title,
+      content,
+      min_price,
+      photo_ip,
+      dueToDate,
     });
     return await this.save(savePost);
   }
@@ -40,14 +40,14 @@ export class PostsRepository extends Repository<PostsEntity> {
 
   // 3.게시글 상세조회
   async getDetailPost(post_id: number) {
-    const detailPost = await this.findOne({ where: { post_id: post_id } });
+    const detailPost = await this.findOne({ where: { post_id } });
 
     return detailPost;
   }
 
   // 4.가격입찰
   async updateBizPrice(user_id: number, post_id: number, biz_price: number) {
-    const detailPost = await this.findOne({ where: { post_id: post_id } });
+    const detailPost = await this.findOne({ where: { post_id } });
  
 
     // post_items에 post_id를 추가합니다. (중복 방지)
