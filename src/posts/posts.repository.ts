@@ -20,12 +20,14 @@ export class PostsRepository extends Repository<PostsEntity> {
     content: string,
     min_price: number,
     photo_ip: string,
+    dueToDate : Date,
   ): Promise<any> {
     const savePost = this.create({
       title: title,
       content: content,
       min_price: min_price,
       photo_ip: photo_ip,
+      dueToDate: dueToDate,
     });
     return await this.save(savePost);
   }
