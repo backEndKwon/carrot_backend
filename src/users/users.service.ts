@@ -116,14 +116,14 @@ export class UsersService {
       throw new UnauthorizedException();
     }
   }
-  
-  async getUserInfo(checkInfo): Promise<any> {
-    const user = await this.usersRepository.getUserInfo(checkInfo);
 
-    if (!user) {
-      throw new NotFoundException('사용자 정보가 없습니다');
-    } else {
-      return user;
-    }
-  }
+//   async getUserInfo(checkInfo): Promise<any> {
+//     const user = await this.usersRepository.getUserInfo(checkInfo);
+
+//     if (!user) {
+//       throw new NotFoundException('사용자 정보가 없습니다');
+//     } else {
+//       return user;
+//     }
+//   }
 }
