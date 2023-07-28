@@ -17,6 +17,8 @@ export class PostsService {
     if (!content) throw new Error('내용 필수');
     if (!min_price) throw new Error('최소가격 필수');
     if (!photo_ip) throw new Error('사진 등록 필수');
+    if (!dueToDate) throw new Error('만료 시간 필수');
+
     return await this.postsRepository.createPost(
       title,
       content,
