@@ -17,9 +17,8 @@ export class UsersRepository extends Repository<UsersEntity> {
   //   return true;
   // }
 
-  async saveUserInfo(kakao: any): Promise<any> {
-    const kakao_info = JSON.parse(kakao);
-    const email = kakao_info.kakao_account.email; //카카오 이메일
+  async saveUserInfo(kakao_info:any): Promise<UsersEntity> {
+    const email = kakao_info.kakao_account.email
     const existUser = await this.findOne({ where: { email } }); //db내 이메일 있는지 확인
     console.log('repo/existUser======================', existUser);
     if (!existUser) {
@@ -28,7 +27,7 @@ export class UsersRepository extends Repository<UsersEntity> {
         nickname: kakao_info.properties.nickname,
         profile: kakao_info.properties.profile_image,
       });
-     return await this.save(usersInfo);
+      return await this.save(usersInfo);
 
       //   console.log('repository/saveUser===================',savedUser.user_id);
       //   return savedUser.user_id;
@@ -36,12 +35,9 @@ export class UsersRepository extends Repository<UsersEntity> {
       // return existUser.user_id;
     }
   }
-  async findUserId(email: string): Promise<any> {
+  async findUserId(email: string): Promise<number> {
     const user = await this.findOne({ where: { email } });
-    console.log("repo/email===============================",email)
-    console.log("repo/userid================================",user.user_id)
-    return 1
-    //return user.user_id;
+    return user.user_id;
   }
 
   async getUserInfo(checkInfo): Promise<any> {

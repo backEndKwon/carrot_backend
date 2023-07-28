@@ -45,11 +45,14 @@ export class UsersController {
       //   kakao.kakao_account.email,
       // );
 
+      const kakao_info = JSON.parse(JSON.stringify(kakao));
+    const email = kakao_info.kakao_account.email; //카카오 이메일
+      
       // //user정보 저장 후 user_id 반환
-      await this.usersService.saveUserInfo(kakao);
+      await this.usersService.saveUserInfo(kakao_info);
 
       ///자체 accessToken 발급
-      const accessToken = await this.usersService.accessToken(kakao);
+      const accessToken = await this.usersService.accessToken(email);
       res.send({
         accessToken,
       });
