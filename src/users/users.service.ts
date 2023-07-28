@@ -95,9 +95,9 @@ export class UsersService {
   // async findEmailAndUserId(email: string): Promise<UsersEntity | boolean> {
   //   return await this.usersRepository.findEmailAndUserId(email);
   // }
-  // async saveUserInfo(kakao): Promise<UsersEntity|number> {
-  //   return await this.usersRepository.saveUserInfo(kakao);
-  // }
+  async saveUserInfo(kakao): Promise<UsersEntity|number> {
+    return await this.usersRepository.saveUserInfo(kakao);
+  }
 
   async accessToken(kakao): Promise<any> {
     // console.log("accessToken: ", kakao.kakao_account.email);

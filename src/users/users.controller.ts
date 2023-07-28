@@ -44,8 +44,9 @@ export class UsersController {
       // const isEmailAndUserId = await this.usersService.findEmailAndUserId(
       //   kakao.kakao_account.email,
       // );
-
-      //await this.usersService.saveUserInfo(kakao);
+      
+      //user정보 저장 후 user_id 반환
+      await this.usersService.saveUserInfo(kakao);
 
       ///자체 accessToken 발급
       const accessToken = await this.usersService.accessToken(kakao);
