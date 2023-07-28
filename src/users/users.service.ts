@@ -101,18 +101,20 @@ export class UsersService {
 
   async accessToken(kakao): Promise<any> {
     // console.log("accessToken: ", kakao.kakao_account.email);
-
+    const kakaoEmail = kakao.kakao_account.email;
     try {
       const payload = {
-        email: kakao.kakao_account.email,
+        email: kakaoEmail,
       };
       const access_token = this.jwtService.sign(payload); // AccessToken 생성
 
       // AccessToken을 배열에 추가
       await this.usersRepository.saveUserInfo(kakao);
+      console.log("service/email====================",kakaoEmail)
       const userId = await this.usersRepository.findUserId(
-        kakao.kakao_account.email,
+        kakaoEmail,
       );
+      console.log("service/userId===================",userId)
       if (!userId) {
         throw new UnauthorizedException();
       } else {
