@@ -30,7 +30,7 @@ export class UsersRepository extends Repository<UsersEntity> {
       });
       const savedUser = await this.save(usersInfo);
 
-      console.log('repository/saveUser check');
+      console.log('repository/saveUser',savedUser.user_id);
       return savedUser.user_id;
     }
     return existUser.user_id;
@@ -39,6 +39,7 @@ export class UsersRepository extends Repository<UsersEntity> {
   async getUserInfo(checkInfo): Promise<any> {
     const { accessToken, userId } = checkInfo;
     const user = await this.findOne({ where: { user_id: userId } });
+    console.log('repository/user', user);
     return user;
   }
 }
