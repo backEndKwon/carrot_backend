@@ -21,19 +21,24 @@ export class UsersRepository extends Repository<UsersEntity> {
     const kakao_info = JSON.parse(kakao);
     const email = kakao_info.kakao_account.email; //카카오 이메일
     const existUser = await this.findOne({ where: { email } }); //db내 이메일 있는지 확인
-    console.log('repo/existUser', existUser);
+    console.log('repo/existUser======================', existUser);
     if (!existUser) {
       const usersInfo = this.create({
         email: kakao_info.kakao_account.email,
         nickname: kakao_info.properties.nickname,
         profile: kakao_info.properties.profile_image,
       });
-      const savedUser = await this.save(usersInfo);
+      await this.save(usersInfo);
 
-      console.log('repository/saveUser',savedUser.user_id);
-      return savedUser.user_id;
+      //   console.log('repository/saveUser===================',savedUser.user_id);
+      //   return savedUser.user_id;
+      // }
+      // return existUser.user_id;
     }
-    return existUser.user_id;
+  }
+  async findUserId(email: string): Promise<number > {
+    const user = await this.findOne({ where: { email } });
+    return user.user_id;
   }
 
   async getUserInfo(checkInfo): Promise<any> {
