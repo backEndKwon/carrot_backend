@@ -9,8 +9,9 @@ export class PostsService {
   async createPost(
     title: string,
     content: string,
-    min_price: number,
+    min_price: string,
     photo_ip: string,
+    dueToDate: string,
   ): Promise<any> {
     if (!title) throw new Error('제목 필수');
     if (!content) throw new Error('내용 필수');
@@ -21,6 +22,7 @@ export class PostsService {
       content,
       min_price,
       photo_ip,
+      dueToDate,
     );
   }
 
@@ -36,8 +38,11 @@ export class PostsService {
   }
 
   // 4.가격입찰
-  async updateBizPrice(user_id:number, post_id:number, biz_price:number) {
-     
-    return await this.postsRepository.updateBizPrice(user_id, post_id, biz_price);
-}
+  async updateBizPrice(user_id: number, post_id: number, biz_price: number) {
+    return await this.postsRepository.updateBizPrice(
+      user_id,
+      post_id,
+      biz_price,
+    );
+  }
 }

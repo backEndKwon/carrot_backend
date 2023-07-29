@@ -18,14 +18,16 @@ export class PostsRepository extends Repository<PostsEntity> {
   async createPost(
     title: string,
     content: string,
-    min_price: number,
+    min_price: string,
     photo_ip: string,
+    dueToDate: string,
   ): Promise<any> {
     const savePost = this.create({
-      title: title,
-      content: content,
-      min_price: min_price,
-      photo_ip: photo_ip,
+      title,
+      content,
+      min_price,
+      photo_ip,
+      dueToDate,
     });
     return await this.save(savePost);
   }
@@ -46,7 +48,6 @@ export class PostsRepository extends Repository<PostsEntity> {
   // 4.가격입찰
   async updateBizPrice(user_id: number, post_id: number, biz_price: number) {
     const detailPost = await this.findOne({ where: { post_id: post_id } });
- 
 
     // post_items에 post_id를 추가합니다. (중복 방지)
     // const userInfo = await this.userRepository.findOne({ where: { user_id } });

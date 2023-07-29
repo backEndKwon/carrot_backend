@@ -8,12 +8,14 @@ export class PostsController {
   // 1.게시글 작성
   @Post('/posts')
   async createPost(@Body() body: PostsEntity) {
-    const { title, content, min_price, photo_ip } = body;
+    const { title, content, min_price, photo_ip, dueToDate } = body;
+    console.log(title, content, min_price, photo_ip);
     return await this.postsService.createPost(
       title,
       content,
       min_price,
       photo_ip,
+      dueToDate,
     );
   }
 

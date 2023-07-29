@@ -27,7 +27,7 @@ export class PostsEntity extends BaseEntity {
   photo_ip: string;
 
   @Column()
-  min_price: number;
+  min_price: string;
 
   @Column({ type: 'text', nullable: true })
   biz_count: number;
@@ -36,7 +36,7 @@ export class PostsEntity extends BaseEntity {
   biz_price: number;
 
   @Column()
-  dueToDate: Date;
+  dueToDate: string;
 
   @Column({ default: 'false' })
   is_sold: boolean;
