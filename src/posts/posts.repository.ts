@@ -18,9 +18,9 @@ export class PostsRepository extends Repository<PostsEntity> {
   async createPost(
     title: string,
     content: string,
-    min_price: string,
-    photo_ip: string,
-    dueToDate: string,
+    min_price: number,
+    photo_ip: string[],
+    dueToDate : string,
   ): Promise<any> {
     const savePost = this.create({
       title,
@@ -40,14 +40,15 @@ export class PostsRepository extends Repository<PostsEntity> {
 
   // 3.게시글 상세조회
   async getDetailPost(post_id: number) {
-    const detailPost = await this.findOne({ where: { post_id: post_id } });
+    const detailPost = await this.findOne({ where: { post_id } });
 
     return detailPost;
   }
 
   // 4.가격입찰
   async updateBizPrice(user_id: number, post_id: number, biz_price: number) {
-    const detailPost = await this.findOne({ where: { post_id: post_id } });
+    const detailPost = await this.findOne({ where: { post_id } });
+ 
 
     // post_items에 post_id를 추가합니다. (중복 방지)
     // const userInfo = await this.userRepository.findOne({ where: { user_id } });

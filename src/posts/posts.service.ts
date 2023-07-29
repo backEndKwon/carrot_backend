@@ -9,14 +9,16 @@ export class PostsService {
   async createPost(
     title: string,
     content: string,
-    min_price: string,
-    photo_ip: string,
+    min_price: number,
+    photo_ip: string[],
     dueToDate: string,
   ): Promise<any> {
     if (!title) throw new Error('제목 필수');
     if (!content) throw new Error('내용 필수');
     if (!min_price) throw new Error('최소가격 필수');
     if (!photo_ip) throw new Error('사진 등록 필수');
+    if (!dueToDate) throw new Error('만료 시간 필수');
+
     return await this.postsRepository.createPost(
       title,
       content,

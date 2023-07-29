@@ -23,8 +23,8 @@ export class PostsEntity extends BaseEntity {
   @Column({ type: 'text' })
   content: string;
 
-  @Column({ type: 'text', nullable: true })
-  photo_ip: string;
+  @Column({ type: 'text', array: true, default: [], nullable: true })
+  photo_ip: string[];
 
   @Column()
   min_price: string;
