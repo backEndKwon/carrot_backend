@@ -46,7 +46,9 @@ export class UsersRepository extends Repository<UsersEntity> {
   async getUserInfo(email: string): Promise<any> {
     const userInfo = await this.findOne({ where: { email: email } });
     console.log('repository/user', userInfo);
-    return userInfo;
+    const { user_id, nickname, profile } = userInfo;
+
+    return { user_id, nickname, profile };
   }
 
   async tokenValidateUser(payload: any): Promise<any> {
