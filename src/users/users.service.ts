@@ -9,8 +9,6 @@ import * as qs from 'qs';
 import { UsersEntity } from './users.entity';
 import { UsersRepository } from './users.repository';
 import { JwtService } from '@nestjs/jwt/dist';
-import { get } from 'http';
-import { IsEmail } from 'class-validator';
 // import { access } from 'fs';
 // import { KakaoLoginAuthOutputDto } from 'src/common/dtos/kakao-login-auth.dto';
 
@@ -32,7 +30,7 @@ export class UsersService {
       grant_type: 'authorization_code',
       client_id: kakaoKey,
       // redirect_uri: `${domain}/kakao-callback`,
-      redirect_uri: 'https://carrot-three.vercel.app/auth/kakaoRedirect', //인가코드가 리다이렉트된 URI
+      redirect_uri: 'http://localhost:3000/auth/kakaoRedirect', //인가코드가 리다이렉트된 URI
       code: authCode, //프론트로부터 받은 인가코드
     };
     const headers = {
@@ -64,19 +62,23 @@ export class UsersService {
 
         console.log(`responseUserInfo.status : ${responseUserInfo.status}`);
         if (responseUserInfo.status === 200) {
-          console.log(
-            `S/kakaoUserInfo : ${JSON.stringify(responseUserInfo.data)}`,
-          );
-          const email = responseUserInfo.data.kakao_account.email;
+          const kakaoData = responseUserInfo.data;
+
+          const { email } = kakaoData.kakao_account;
           const existUser = await this.usersRepository.findEmail(email);
+
           if (!existUser) {
-            await this.usersRepository.saveUserInfo(
-              JSON.stringify(responseUserInfo.data),
-            );
+            const {
+              email,
+              profile: { nickname, profile_image_url },
+            } = kakaoData.kakao_account;
+
+            const saveUserInfo = { email, nickname, profile_image_url };
+            await this.usersRepository.saveUserInfo(saveUserInfo);
           }
 
           console.log('000000000000000000000000000000');
-          return responseUserInfo.data; //accessToken으로 변경
+          return kakaoData; //accessToken으로 변경
         } else {
           throw new UnauthorizedException();
         }
@@ -119,8 +121,8 @@ export class UsersService {
     const decodedToken = this.jwtService.decode(accesstoken);
     const userEmail = decodedToken['email'];
 
-    console.log("=================디코드토큰================",decodedToken)
-    console.log("==============이메일======================",userEmail)
+    console.log('=================디코드토큰================', decodedToken);
+    console.log('==============이메일======================', userEmail);
     if (!userEmail) {
       //accessToken에 email없을경우
       console.log('decode token쪽 a-error)');
@@ -135,7 +137,6 @@ export class UsersService {
       }
     }
   }
-
 
   //   async tokenValidateUser(payload: any): Promise<any> {
   //     return await this.usersRepository.tokenValidateUser(payload);
