@@ -118,23 +118,35 @@ export class UsersService {
   // }
 
   async verifyTokenAndUserInfo(accesstoken: string): Promise<any> {
-    const decodedToken = this.jwtService.decode(accesstoken);
+    // const decodedToken = this.jwtService.decode(accesstoken);
+    const decodedToken = this.jwtService.verify(accesstoken); //토큰의 무결성 검증 및 payload 반환
     const userEmail = decodedToken['email'];
-
     console.log('=================디코드토큰================', decodedToken);
     console.log('==============이메일======================', userEmail);
-    if (!userEmail) {
-      //accessToken에 email없을경우
-      console.log('decode token쪽 a-error)');
-      throw new UnauthorizedException();
-    } else {
-      const existUserEmail = await this.usersRepository.findEmail(userEmail);
-      if (!existUserEmail) {
-        console.log('decode token쪽 b-error)');
+
+    try {
+      if (!userEmail) {
+        //accessToken에 email없을경우
+        console.log('decode token쪽 a-error)');
         throw new UnauthorizedException();
       } else {
-        return await this.usersRepository.getUserInfo(userEmail);
+        const existUserEmail = await this.usersRepository.findEmail(userEmail);
+        if (!existUserEmail) {
+          console.log('decode token쪽 b-error)');
+          throw new UnauthorizedException();
+        } else {
+          return await this.usersRepository.getUserInfo(userEmail);
+        }
       }
+    } catch (error) {
+      console.log('decode token쪽 c-error)');
+      if (error instanceof UnauthorizedException && userEmail) {
+        const newAccessToken = await this.accessToken(userEmail);
+        return {
+          access_token: newAccessToken,
+        };
+      }
+      throw new UnauthorizedException();
     }
   }
 

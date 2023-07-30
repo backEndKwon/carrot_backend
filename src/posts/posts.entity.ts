@@ -27,7 +27,7 @@ export class PostsEntity extends BaseEntity {
   photo_ip: string[];
 
   @Column()
-  min_price: string;
+  min_price: number;
 
   @Column({ type: 'text', nullable: true })
   biz_count: number;
