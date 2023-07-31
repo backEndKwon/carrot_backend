@@ -53,6 +53,12 @@ export class PostsService {
       return existPost;
     } catch (error) {
       console.log(error);
+    try {
+      const existPost = await this.postsRepository.getDetailPost(post_id);
+      if (!existPost) throw new Error('해당 게시글 없음');
+      return existPost;
+    } catch (error) {
+      console.log(error);
     }
     return 'ok';
   }
