@@ -14,14 +14,23 @@ import { JwtModule } from '@nestjs/jwt';
 import { PostsRepository } from './posts/posts.repository';
 import { BizsModule } from './bizs/bizs.module';
 import { BizsRepository } from './bizs/bizs.repository';
+import { BizModule } from './biz/biz.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot(typeORMConfig),
     UsersModule,
     PostsModule,
     BizsModule,
+    BizModule,
   ],
   controllers: [AppController, UsersController, PostsController],
-  providers: [AppService, UsersService, PostsService, UsersRepository, PostsRepository,BizsRepository],
+  providers: [
+    AppService,
+    UsersService,
+    PostsService,
+    UsersRepository,
+    PostsRepository,
+    BizsRepository,
+  ],
 })
 export class AppModule {}
