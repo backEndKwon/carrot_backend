@@ -10,8 +10,12 @@ import { BizsModule } from 'src/bizs/bizs.module';
 import { BizsRepository } from 'src/bizs/bizs.repository';
 import { EventEmitter } from 'events';
 @Module({
-  imports: [TypeOrmModule.forFeature([PostsEntity,PostsRepository]), UsersModule, BizsModule],
+  imports: [
+    TypeOrmModule.forFeature([PostsEntity, PostsRepository]),
+    UsersModule,
+    BizsModule,
+  ],
   controllers: [PostsController],
-  providers: [PostsService, PostsRepository,UsersRepository,BizsRepository, EventEmitter],
+  providers: [PostsService, PostsRepository, UsersRepository, BizsRepository],
 })
 export class PostsModule {}
