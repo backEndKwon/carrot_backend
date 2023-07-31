@@ -36,36 +36,58 @@ export class PostsService {
       dueToDate,
     );
     //user테이블의 post_itmes에 post_id추가 로직 구현 해야됨
+    return 'ok';
   }
 
   // 2.게시글 전체조회
   async getAllPosts() {
-    return await this.postsRepository.getAllPosts();
+     await this.postsRepository.getAllPosts();
+    return 'ok';
   }
 
   // 3.게시글 상세조회
   async getDetailPost(post_id: number) {
-    try{
-    const existPost = await this.postsRepository.getDetailPost(post_id);
-    if (!existPost) throw new Error('해당 게시글 없음');
-    return existPost
-    }catch(error){
-      console.log(error)
+    try {
+      const existPost = await this.postsRepository.getDetailPost(post_id);
+      if (!existPost) throw new Error('해당 게시글 없음');
+      return existPost;
+    } catch (error) {
+      console.log(error);
     }
+    return 'ok';
   }
 
   // 4.가격입찰
   async updateBizPrice(user_id: number, post_id: number, biz_price: number) {
     //해당 포스트 찾기-> if(입력한 가격이 &&is_sold&&dueToDate확인)-> user테이블 biz_items추가, 가격(biz_price)수정 -> 테이블내
     //(1) 해당 포스트 가격비교 후 post[가격&&입찰카운트],  update
-    const thisPost = await this.postsRepository.getDetailPost(post_id);
-    if(thisPost.biz_price > biz_price){
-      throw new Error("입찰가는 현재가격보다 커야합니다.")
+    const existPost = await this.postsRepository.getDetailPost(post_id);
+
+    // console.log("-------user테이블-----",typeof(existPost.user_id))
+    console.log('----user테이블-----', existPost.user_id);
+    console.log('----post테이블--------', user_id);
+
+    if (existPost.user_id === user_id) {
+      throw new Error('본인 게시글에 입찰 할 수 없습니다');
     }
-    return await this.postsRepository.updateBizPrice(
-      user_id,
-      post_id,
-      biz_price,
-    );
+    if (!existPost) {
+      throw new Error('해당 게시글이 존재하지 않음');
+    }
+    console.log('----user테이블-----', existPost.biz_price);
+    console.log('----post테이블--------', biz_price);
+    if (existPost.biz_price >= biz_price) {
+      throw new Error('입찰가는 현재가격보다 커야됨');
+    }
+    if (existPost.min_price > biz_price) {
+      throw new Error('입찰가는 최초가격보다 커야됨');
+    }
+
+    //정상적으로 입력되었을 경우s
+    await this.postsRepository.bizCountUp(post_id);
+    // await this.postsRepository.pushPostId(user_id,post_id)
+    await this.postsRepository.bizPriceUpdate(biz_price, post_id);
+    //biz table 업데이트
+    await this.postsRepository.saveBiz(user_id, post_id, biz_price);
+    return 'ok';
   }
 }

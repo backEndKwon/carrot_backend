@@ -22,11 +22,12 @@ export class UsersEntity extends BaseEntity {
   @Column({ type: 'text' })
   profile: string;
 
-  @Column({ type: 'text', array: true, default: [] })
-  post_items: number[]; // 자기 post_id를 저장할 배열 필드
+  // @Column({ type: 'text', array: true, default: [] })
+  // post_items: number[]; // 자기 post_id를 저장할 배열 필드
+  // // biz entity생성으로 필요 없게 됨
 
-  @Column({ type: 'text', array: true, default: [] })
-  biz_items: number[]; // 남의 post_id를 저장할 배열 필드
+  // @Column({ type: 'text', array: true, default: [] })
+  // biz_items: number[]; // 남의 post_id를 저장할 배열 필드
 
   @CreateDateColumn()
   createdAt: Date;

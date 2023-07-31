@@ -12,13 +12,16 @@ import { typeORMConfig } from './configs/typeorm.config';
 import { UsersRepository } from './users/users.repository';
 import { JwtModule } from '@nestjs/jwt';
 import { PostsRepository } from './posts/posts.repository';
+import { BizsModule } from './bizs/bizs.module';
+import { BizsRepository } from './bizs/bizs.repository';
 @Module({
   imports: [
     TypeOrmModule.forRoot(typeORMConfig),
     UsersModule,
     PostsModule,
+    BizsModule,
   ],
   controllers: [AppController, UsersController, PostsController],
-  providers: [AppService, UsersService, PostsService, UsersRepository, PostsRepository],
+  providers: [AppService, UsersService, PostsService, UsersRepository, PostsRepository,BizsRepository],
 })
 export class AppModule {}

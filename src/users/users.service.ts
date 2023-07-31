@@ -155,8 +155,25 @@ export class UsersService {
   // }
 
   // async dummpyData(user_id: number, email: string, nickname: string, profile: string): Promise<UsersEntity|any> {
-    
+
   //   return await this.usersRepository.dummpyData();
   // }
 
+  // async dummyData(
+  //   user_id: number,
+  //   email: string,
+  //   nickname: string,
+  //   profile: string,
+  // ) {
+  //   for (let i = 0; i < 10; i++) {
+
+  //     for(let j=0; j<10; j++){
+  //       user_id = 4+j
+        
+  //     }
+
+  //   }
+    
+  //   return 'ok';
+  // }
 }

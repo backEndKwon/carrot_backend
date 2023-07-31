@@ -47,6 +47,9 @@ export class PostsController {
     @Body() body: { biz_price: number },
   ) {
     const { biz_price } = body;
+    console.log('biz_price==', biz_price);
+    console.log('user_id==', user_id);
+    console.log('post_id==', post_id);
     return await this.postsService.updateBizPrice(user_id, post_id, biz_price);
   }
 }

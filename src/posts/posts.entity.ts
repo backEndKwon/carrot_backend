@@ -6,15 +6,17 @@ import {
   CreateDateColumn,
   ManyToOne,
   JoinColumn,
+  ManyToMany,
 } from 'typeorm';
 import { UsersEntity } from '../users/users.entity';
+import { BizsEntity } from 'src/bizs/bizs.entity';
 
 @Entity('Posts')
 export class PostsEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   post_id: number;
 
-  @Column({ nullable: true, name : 'user_id'})
+  @Column({ nullable: true, name: 'user_id' })
   user_id: number;
 
   @Column({ type: 'text' })
@@ -26,10 +28,10 @@ export class PostsEntity extends BaseEntity {
   @Column({ type: 'text', array: true, default: [], nullable: true })
   photo_ip: string[];
 
-  @Column()
+  @Column({ default: 0 })
   min_price: number;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'int', nullable: true })
   biz_count: number;
 
   @Column({ type: 'int', nullable: true })
@@ -47,4 +49,8 @@ export class PostsEntity extends BaseEntity {
   @ManyToOne(() => UsersEntity)
   @JoinColumn({ name: 'user_id' })
   users: UsersEntity;
+
+  @ManyToMany(() => PostsEntity)
+  @JoinColumn({ name: 'biz_id' })
+  bizs: BizsEntity;
 }

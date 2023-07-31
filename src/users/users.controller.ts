@@ -64,10 +64,10 @@ export class UsersController {
   async user(@Req() req): Promise<any> {
     const { authorization } = req.headers;
     const token = authorization.split(' ')[1];
-console.log("authorizaiton======================>",authorization)
-console.log("req.headers========================>", req.headers)
+    console.log('authorizaiton======================>', authorization);
+    console.log('req.headers========================>', req.headers);
     const result = await this.usersService.verifyTokenAndUserInfo(token);
-    console.log("result==========================>",result)
+    console.log('result==========================>', result);
     return result;
     // const accessToken = request.headers.Authorization.replace('Bearer ', '');
     // const { userId } = body;
@@ -76,7 +76,12 @@ console.log("req.headers========================>", req.headers)
     // return await this.usersService.getUserInfo(checkInfo);
   }
   // @Get('/dummpyData')
-  // async dummpyData(){
-  //   return await this.usersService.dummpyData();
+  // async dummpyData(
+  //   user_id: number,
+  //   email: string,
+  //   nickname: string,
+  //   profile: string,
+  // ) {
+  //   return await this.usersService.dummyData(user_id, email, nickname, profile);
   // }
 }

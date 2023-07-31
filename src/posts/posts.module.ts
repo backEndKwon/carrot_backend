@@ -6,9 +6,11 @@ import { PostsEntity } from './posts.entity';
 import { PostsRepository } from './posts.repository';
 import { UsersModule } from 'src/users/users.module';
 import { UsersRepository } from 'src/users/users.repository';
+import { BizsModule } from 'src/bizs/bizs.module';
+import { BizsRepository } from 'src/bizs/bizs.repository';
 @Module({
-  imports: [TypeOrmModule.forFeature([PostsEntity,PostsRepository]), UsersModule],
+  imports: [TypeOrmModule.forFeature([PostsEntity,PostsRepository]), UsersModule, BizsModule],
   controllers: [PostsController],
-  providers: [PostsService, PostsRepository,UsersRepository],
+  providers: [PostsService, PostsRepository,UsersRepository,BizsRepository],
 })
 export class PostsModule {}
