@@ -41,8 +41,7 @@ export class PostsService {
 
   // 2.게시글 전체조회
   async getAllPosts() {
-     await this.postsRepository.getAllPosts();
-    return 'ok';
+    return await this.postsRepository.getAllPosts();
   }
 
   // 3.게시글 상세조회
@@ -53,16 +52,16 @@ export class PostsService {
       return existPost;
     } catch (error) {
       console.log(error);
-    try {
-      const existPost = await this.postsRepository.getDetailPost(post_id);
-      if (!existPost) throw new Error('해당 게시글 없음');
-      return existPost;
-    } catch (error) {
-      console.log(error);
+      try {
+        const existPost = await this.postsRepository.getDetailPost(post_id);
+        if (!existPost) throw new Error('해당 게시글 없음');
+        return existPost;
+      } catch (error) {
+        console.log(error);
+      }
+      return 'ok';
     }
-    return 'ok';
   }
-
   // 4.가격입찰
   async updateBizPrice(user_id: number, post_id: number, biz_price: number) {
     //해당 포스트 찾기-> if(입력한 가격이 &&is_sold&&dueToDate확인)-> user테이블 biz_items추가, 가격(biz_price)수정 -> 테이블내

@@ -57,26 +57,26 @@ export class PostsRepository extends Repository<PostsEntity> {
   }
 
   // 4.가격입찰
-  // async updateBizPrice(user_id: number, post_id: number, biz_price: number) {
-  //   const detailPost = await this.findOne({ where: { post_id } });
+  async updateBizPrice(user_id: number, post_id: number, biz_price: number) {
+    const detailPost = await this.findOne({ where: { post_id } });
 
-  //   // post_items에 post_id를 추가합니다. (중복 방지)
-  //   // const userInfo = await this.userRepository.findOne({ where: { user_id } });
-  //   // if (!userInfo.post_items.includes(post_id)) {
-  //   //   userInfo.post_items.push(post_id);
-  //   // await userInfo.save();
-  //   // }
+    // post_items에 post_id를 추가합니다. (중복 방지)
+    // const userInfo = await this.userRepository.findOne({ where: { user_id } });
+    // if (!userInfo.post_items.includes(post_id)) {
+    //   userInfo.post_items.push(post_id);
+    // await userInfo.save();
+    // }
 
-  //   const bizPrize = biz_price;
-  //   const prePrize = detailPost.biz_price;
+    const bizPrize = biz_price;
+    const prePrize = detailPost.biz_price;
 
-  //   //가격 입찰시 이전 가격보다 높은거 확인 후 +1, 저장
-  //   if (prePrize < bizPrize) {
-  //     detailPost.biz_count += 1;
-  //   }
-  //   await detailPost.save();
-  //   return;
-  // }
+    //가격 입찰시 이전 가격보다 높은거 확인 후 +1, 저장
+    if (prePrize < bizPrize) {
+      detailPost.biz_count += 1;
+    }
+    await detailPost.save();
+    return;
+  }
 
   //특정 유저의 post
   async findOnePost(user_id: number, post_id: number): Promise<PostsEntity> {
@@ -99,8 +99,6 @@ export class PostsRepository extends Repository<PostsEntity> {
   //     `,
   //   );
   // }
-
-
 
   async bizPriceUpdate(biz_price: number, post_id: number) {
     const post = await this.getDetailPost(post_id);
