@@ -4,32 +4,40 @@ import { PostsEntity } from './posts.entity';
 // import { Cron, CronExpression } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersRepository } from '../users/users.repository';
+import { UsersEntity } from 'src/users/users.entity';
 @Injectable()
 export class PostsRepository extends Repository<PostsEntity> {
   constructor(
-    // @InjectRepository(UsersRepository) // User 레파지토리를 주입합니다.
-    // private readonly userRepository: UsersRepository,
+    @InjectRepository(UsersRepository) // User 레파지토리를 주입합니다.
+    private readonly userRepository: UsersRepository,
     private dataSource: DataSource,
   ) {
     super(PostsEntity, dataSource.createEntityManager());
   }
 
+  async findUser(user_id: number) {
+    const existUser = await this.userRepository.findOne({ where: { user_id } });
+    return existUser;
+  }
+
   // 1.게시글 작성
   async createPost(
+    user_id: number,
     title: string,
     content: string,
     min_price: number,
     photo_ip: string[],
-    dueToDate : string,
+    dueToDate: string,
   ): Promise<any> {
     const savePost = this.create({
+      user_id,
       title,
       content,
       min_price,
       photo_ip,
       dueToDate,
     });
-    return await this.save(savePost);
+    await this.save(savePost)
   }
 
   // 2.게시글 전체조회
@@ -48,7 +56,6 @@ export class PostsRepository extends Repository<PostsEntity> {
   // 4.가격입찰
   async updateBizPrice(user_id: number, post_id: number, biz_price: number) {
     const detailPost = await this.findOne({ where: { post_id } });
- 
 
     // post_items에 post_id를 추가합니다. (중복 방지)
     // const userInfo = await this.userRepository.findOne({ where: { user_id } });
@@ -67,4 +74,9 @@ export class PostsRepository extends Repository<PostsEntity> {
     await detailPost.save();
     return;
   }
+
+  //   async findOnePost(post_id){
+
+  //     return await this.findOne({where:{post_id}})
+  //   }
 }

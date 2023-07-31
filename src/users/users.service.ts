@@ -153,4 +153,10 @@ export class UsersService {
   //   async tokenValidateUser(payload: any): Promise<any> {
   //     return await this.usersRepository.tokenValidateUser(payload);
   // }
+
+  // async dummpyData(user_id: number, email: string, nickname: string, profile: string): Promise<UsersEntity|any> {
+    
+  //   return await this.usersRepository.dummpyData();
+  // }
+
 }

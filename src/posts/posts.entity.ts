@@ -14,7 +14,7 @@ export class PostsEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   post_id: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, name : 'user_id'})
   user_id: number;
 
   @Column({ type: 'text' })
@@ -44,7 +44,7 @@ export class PostsEntity extends BaseEntity {
   @CreateDateColumn()
   createdAt: Date;
 
-  @ManyToOne(() => UsersEntity, (user) => user.posts)
+  @ManyToOne(() => UsersEntity)
   @JoinColumn({ name: 'user_id' })
   users: UsersEntity;
 }

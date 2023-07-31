@@ -1,4 +1,12 @@
-import { Controller, Body, Get, Post, Param, Patch } from '@nestjs/common';
+import {
+  Controller,
+  Body,
+  Get,
+  Post,
+  Param,
+  Patch,
+  Response,
+} from '@nestjs/common';
 import { PostsEntity } from './posts.entity';
 import { PostsService } from './posts.service';
 @Controller('post')
@@ -8,8 +16,9 @@ export class PostsController {
   // 1.게시글 작성
   @Post('/posts')
   async createPost(@Body() body: PostsEntity) {
-    const { title, content, min_price, photo_ip, dueToDate} = body;
+    const { user_id, title, content, min_price, photo_ip, dueToDate } = body;
     return await this.postsService.createPost(
+      user_id,
       title,
       content,
       min_price,

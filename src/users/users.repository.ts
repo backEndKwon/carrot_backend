@@ -55,4 +55,14 @@ export class UsersRepository extends Repository<UsersEntity> {
     const email = payload.email;
     return await this.findOne({ where: { email } });
   }
+
+  // async dummpyData(user_id:number, email:string, nickname:string, profile:string): Promise<UsersEntity|any> {
+  //   const saveUserInfo = this.create({
+  //     user_id,
+  //     email,
+  //     nickname,
+  //     profile,
+  //   })
+  //   return await this.save(saveUserInfo);
+  // }
 }
