@@ -35,7 +35,8 @@ export class PostsService {
         throw new Error('만료일을 다시 설정해주십시오');
       }
       if (!dueToDate) throw new Error('만료 시간 필수');
-      await this.postsRepository.createPost(
+
+      return await this.postsRepository.createPost(
         user_id,
         title,
         content,
@@ -44,7 +45,7 @@ export class PostsService {
         dueToDate,
       );
       //user테이블의 post_itmes에 post_id추가 로직 구현 해야됨
-      return 'ok';
+
     } catch (error) {
       console.log(error);
     }
@@ -103,7 +104,6 @@ export class PostsService {
     await this.updateSoldStatus(post_id);
     // 4-4 biz table 업데이트
     await this.postsRepository.saveBiz(user_id, post_id, biz_price);
-    return 'ok';
   }
 
   async updateSoldStatus(post_id: number) {

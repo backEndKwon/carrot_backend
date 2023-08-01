@@ -23,7 +23,7 @@ export class BizGateway
 
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('BizGateway');
-
+ rks
   @SubscribeMessage('message')
   handleMessage(client: Socket, payload: any): string {
     const { post_id, biz_price } = payload;

@@ -4,7 +4,7 @@ import * as http from 'http';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const port = 5000;
+  const port = 3030;
   // CORS 설정
   app.enableCors({
     origin: '*',

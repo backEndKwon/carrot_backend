@@ -1,0 +1,37 @@
+config:
+  target: "http://localhost:5000"
+  socketio:
+  query: "id=cUW7OXP624yUTJT"
+  phases:
+    # # 8초 동안 60명의 사용자가 요청 = 480번의 요청
+    # - arrivalRate: 60     # 가상 사용자 수 = 쓰레드 수
+    #   duration: 8         # second
+    # 1초 동안 100명의 사용자가 요청 = 100번의 요청
+    - arrivalRate: 100     # 가상 사용자 수 = 쓰레드 수
+      duration: 1         # second
+  payload:
+    path: "./data.csv"
+    fields:
+      user_id: "{{user_id}}"
+      biz_price: "{{biz_price}}"
+scenarios:
+ - name: "가격입찰 POST 요청 시도"
+  engine: "socketio"
+  flow:
+    - emit:
+        channel: "joinRoom_Req"
+        data:
+          "playerID": "{{$randomString()}}"
+          "roomID": "cUW7OXP624yUTJT"
+  - flow: 
+    - log: "가격입찰 POST 요청 시도"
+    - post:
+        url: "/post/posts/{{user_id}}/11"
+        json:
+          biz_price: "{{biz_price}}"
+        # capture:
+        #   json: "$.user_id"
+        #   as: "user_id"
+    # - log: "환자 이송 신청 POST 요청 시도"
+    # - post:
+    #     url: "http://localhost:3000/request/{{report_id}}/2"
