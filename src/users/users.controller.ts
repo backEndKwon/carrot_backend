@@ -20,10 +20,6 @@ export class UsersController {
     try {
       // const { authCode, domain } = body;
       const { authCode } = body;
-      console.log(`controller/authCode = ${authCode}`);
-      console.log('-------------------------');
-      console.log(`controller/body = ${body}`);
-      console.log('-------------------------');
 
       //---카카오톡 로그인 과정 중 에러 발생시---//
       if (!authCode) {
@@ -34,28 +30,27 @@ export class UsersController {
       // 받은 인가코드로 가져온 유저정보
       const kakaoUserInfo = await this.usersService.kakaoLogin({ authCode });
 
-      // console.log(`controller/kakaoUserInfo : ${JSON.parse(kakaoUserInfo)}`);
+      //
       if (!kakaoUserInfo.id) {
         throw new BadRequestException('해당 카카오 계정이 없습니다');
       }
       //-------------------------------------------//
 
       //---카카오 인증 완료후 사용자 정보 저장
-      // console.log('controller/email====', kakao.kakao_account.email);
+      //
       // const isEmailAndUserId = await this.usersService.findEmailAndUserId(
       //   kakao.kakao_account.email,
       // );
 
       const email = kakaoUserInfo.kakao_account.email; //카카오 이메일
-      console.log('controller/email====', email);
+
       ///자체 accessToken 발급
       const accessToken = await this.usersService.accessToken(email);
-      console.log('controller/accessToken', accessToken);
+
       res.send({
         accessToken,
       });
     } catch (error) {
-      console.log(error);
       throw new UnauthorizedException('로그인 실패');
     }
   }
@@ -64,14 +59,13 @@ export class UsersController {
   async user(@Req() req): Promise<any> {
     const { authorization } = req.headers;
     const token = authorization.split(' ')[1];
-    console.log('authorizaiton======================>', authorization);
-    console.log('req.headers========================>', req.headers);
+
     const result = await this.usersService.verifyTokenAndUserInfo(token);
-    console.log('result==========================>', result);
+
     return result;
     // const accessToken = request.headers.Authorization.replace('Bearer ', '');
     // const { userId } = body;
-    // console.log('controller/userId', userId);
+    //
     // const checkInfo = { accessToken, userId };
     // return await this.usersService.getUserInfo(checkInfo);
   }

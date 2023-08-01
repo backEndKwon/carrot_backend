@@ -51,14 +51,11 @@ export class PostsService {
       if (!existPost) throw new Error('해당 게시글 없음');
       return existPost;
     } catch (error) {
-      console.log(error);
       try {
         const existPost = await this.postsRepository.getDetailPost(post_id);
         if (!existPost) throw new Error('해당 게시글 없음');
         return existPost;
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
       return 'ok';
     }
   }
@@ -68,9 +65,7 @@ export class PostsService {
     //(1) 해당 포스트 가격비교 후 post[가격&&입찰카운트],  update
     const existPost = await this.postsRepository.getDetailPost(post_id);
 
-    // console.log("-------user테이블-----",typeof(existPost.user_id))
-    console.log('----user테이블-----', existPost.user_id);
-    console.log('----post테이블--------', user_id);
+    //
 
     if (existPost.user_id === user_id) {
       throw new Error('본인 게시글에 입찰 할 수 없습니다');
@@ -78,8 +73,7 @@ export class PostsService {
     if (!existPost) {
       throw new Error('해당 게시글이 존재하지 않음');
     }
-    console.log('----user테이블-----', existPost.biz_price);
-    console.log('----post테이블--------', biz_price);
+
     if (existPost.biz_price >= biz_price) {
       throw new Error('입찰가는 현재가격보다 커야됨');
     }

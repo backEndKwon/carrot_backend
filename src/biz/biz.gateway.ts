@@ -33,9 +33,13 @@ export class BizGateway
 
   afterInit(server: Server) {
     server.on('connection', (socket) => {
+      //client가  서버에  데이터  전송
       socket.on('sendPrice', (data) => {
-        console.log('sendPrice==', data);
+        console.log('🚀 ~ file: biz.gateway.ts:38 ~ socket.on ~ data:', data);
+
+        //서버가  client에  데이터  전송
         socket.emit('sendPriceToClient', data);
+
         const { user_id, post_id, price } = data;
         this.PostsService.updateBizPrice(user_id, post_id, price);
       });

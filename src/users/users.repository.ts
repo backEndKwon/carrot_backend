@@ -24,7 +24,7 @@ export class UsersRepository extends Repository<UsersEntity> {
   async saveUserInfo(saveUserInfo: SaveUserInfo): Promise<any> {
     const { email, nickname, profile_image_url } = saveUserInfo;
     const existUser = await this.findOne({ where: { email } }); //db내 이메일 있는지 확인
-    console.log('repo/existUser======================', existUser);
+
     if (!existUser) {
       const usersInfo = this.create({
         email,
@@ -35,7 +35,6 @@ export class UsersRepository extends Repository<UsersEntity> {
     }
   }
   async findEmail(email: string): Promise<string> {
-    console.log('---------------------------------------');
     const user = await this.findOne({ where: { email } });
     if (!user) {
       return null;
@@ -45,7 +44,7 @@ export class UsersRepository extends Repository<UsersEntity> {
 
   async getUserInfo(email: string): Promise<any> {
     const userInfo = await this.findOne({ where: { email: email } });
-    console.log('repository/user', userInfo);
+
     const { user_id, nickname, profile } = userInfo;
 
     return { user_id, nickname, profile };

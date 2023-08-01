@@ -46,7 +46,7 @@ export class UsersService {
       });
       if (response.status === 200) {
         //토큰을 받았을 경우
-        console.log(`kakaoToken : ${JSON.stringify(response.data)}`);
+
         const headerUserInfo = {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
           Authorization: 'Bearer ' + response.data.access_token,
@@ -60,7 +60,6 @@ export class UsersService {
           headers: headerUserInfo,
         });
 
-        console.log(`responseUserInfo.status : ${responseUserInfo.status}`);
         if (responseUserInfo.status === 200) {
           const kakaoData = responseUserInfo.data;
 
@@ -77,7 +76,6 @@ export class UsersService {
             await this.usersRepository.saveUserInfo(saveUserInfo);
           }
 
-          console.log('000000000000000000000000000000');
           return kakaoData; //accessToken으로 변경
         } else {
           throw new UnauthorizedException();
@@ -86,7 +84,6 @@ export class UsersService {
         throw new UnauthorizedException();
       }
     } catch (error) {
-      console.log(error);
       throw new UnauthorizedException();
     }
   }
@@ -97,12 +94,11 @@ export class UsersService {
         email: email,
       };
       const access_token = this.jwtService.sign(payload); // AccessToken 생성
-      console.log('service/accessToken 발급==', access_token);
+
       return {
         access_token: access_token,
       };
     } catch (error) {
-      console.log('service/access에러에러에러==', error);
       throw new UnauthorizedException();
     }
   }
@@ -121,25 +117,21 @@ export class UsersService {
     // const decodedToken = this.jwtService.decode(accesstoken);
     const decodedToken = this.jwtService.verify(accesstoken); //토큰의 무결성 검증 및 payload 반환
     const userEmail = decodedToken['email'];
-    console.log('=================디코드토큰================', decodedToken);
-    console.log('==============이메일======================', userEmail);
 
     try {
       if (!userEmail) {
         //accessToken에 email없을경우
-        console.log('decode token쪽 a-error)');
+
         throw new UnauthorizedException();
       } else {
         const existUserEmail = await this.usersRepository.findEmail(userEmail);
         if (!existUserEmail) {
-          console.log('decode token쪽 b-error)');
           throw new UnauthorizedException();
         } else {
           return await this.usersRepository.getUserInfo(userEmail);
         }
       }
     } catch (error) {
-      console.log('decode token쪽 c-error)');
       if (error instanceof UnauthorizedException && userEmail) {
         const newAccessToken = await this.accessToken(userEmail);
         return {
@@ -169,11 +161,11 @@ export class UsersService {
 
   //     for(let j=0; j<10; j++){
   //       user_id = 4+j
-        
+
   //     }
 
   //   }
-    
+
   //   return 'ok';
   // }
 }
