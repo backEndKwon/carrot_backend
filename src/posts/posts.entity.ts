@@ -31,10 +31,10 @@ export class PostsEntity extends BaseEntity {
   @Column({ default: 0 })
   min_price: number;
 
-  @Column({ type: 'int', nullable: true })
+  @Column({ type: 'int', nullable: true, default: 0 })
   biz_count: number;
 
-  @Column({ type: 'int', nullable: true })
+  @Column({ type: 'int', nullable: true, default: 0 })
   biz_price: number;
 
   @Column()

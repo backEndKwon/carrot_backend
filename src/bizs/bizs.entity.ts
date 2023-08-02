@@ -16,13 +16,13 @@ export class BizsEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   biz_id: number;
 
-  @Column({ nullable: true, name: 'user_id' })
+  @Column({ nullable:true, name: 'user_id' })
   user_id: number;//입찰을 하는사람
 
-  @Column({ nullable: true, name: 'post_id' })
+  @Column({ nullable:true, name: 'post_id' })
   post_id: number;
 
-  @Column({ type: 'int', nullable: true })
+  @Column({ type: 'int', nullable: true, default: 0})
   biz_price: number;
 
   @CreateDateColumn()

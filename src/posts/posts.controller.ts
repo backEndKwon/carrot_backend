@@ -11,9 +11,7 @@ import { PostsEntity } from './posts.entity';
 import { PostsService } from './posts.service';
 @Controller('post')
 export class PostsController {
-  constructor(
-    private postsService: PostsService,
-  ) {}
+  constructor(private postsService: PostsService) {}
   // 1.게시글 작성
   @Post('/posts')
   async createPost(@Body() body: PostsEntity) {
@@ -49,15 +47,24 @@ export class PostsController {
   ) {
     const { biz_price } = body;
 
-    console.log('===========> ~ biz_price:', biz_price);
-    console.log('===========> ~ user_id:', user_id);
-    console.log('===========> ~ post_id:', post_id);
-    //
     const result = await this.postsService.updateBizPrice(
       user_id,
       post_id,
       biz_price,
     );
     return result;
+  }
+
+  // 5.실시간 가격변동 API
+  @Get('/posts/realtime/:post_id')
+  async getRealtimePrice(@Param('post_id') post_id: number) {
+    const result = await this.postsService.getRealtimePrice(post_id);
+    return result;
+  }
+
+  // 5-1. 해당 게시글 전체 입찰내역 조회
+  @Get('/posts/biz/:post_id')
+  async gerAllBizPost(@Param('post_id') post_id: number) {
+    return await this.postsService.getAllBizPost(post_id);
   }
 }
