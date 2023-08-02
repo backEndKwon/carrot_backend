@@ -9,9 +9,11 @@ import {
 } from '@nestjs/common';
 import { PostsEntity } from './posts.entity';
 import { PostsService } from './posts.service';
+
 @Controller('post')
 export class PostsController {
   constructor(private postsService: PostsService) {}
+
   // 1.게시글 작성
   @Post('/posts')
   async createPost(@Body() body: PostsEntity) {
@@ -55,7 +57,7 @@ export class PostsController {
     return result;
   }
 
-  // 5.실시간 가격변동 API
+  // 5. 5초마다 update 실시간 가격변동 API
   @Get('/posts/realtime/:post_id')
   async getRealtimePrice(@Param('post_id') post_id: number) {
     const result = await this.postsService.getRealtimePrice(post_id);
@@ -67,4 +69,16 @@ export class PostsController {
   async gerAllBizPost(@Param('post_id') post_id: number) {
     return await this.postsService.getAllBizPost(post_id);
   }
+
+// //6. 게시글 생성 더미데이터
+// @Get('/dummyData')
+//   async dummyData() {
+//     return await this.postsService.dummyData();
+//   }
+
+//   //7. 가격입찰 더미데이터
+//   @Get('/dummyData/biz')
+// async dummyBizData() {      
+//   return await this.postsService.dummyBizData();  
+// }
 }

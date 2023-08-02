@@ -56,13 +56,19 @@ export class UsersRepository extends Repository<UsersEntity> {
     return await this.findOne({ where: { email } });
   }
 
-  // async dummpyData(user_id:number, email:string, nickname:string, profile:string): Promise<UsersEntity|any> {
-  //   const saveUserInfo = this.create({
-  //     user_id,
-  //     email,
-  //     nickname,
-  //     profile,
-  //   })
-  //   return await this.save(saveUserInfo);
-  // }
+  async dummyData(dummyUsers) {
+    console.log("===========> ~ dummyUsers:", dummyUsers)
+    
+    for (const user of dummyUsers) {
+      let { email, nickname, profile } = user;
+      const saveUserInfo = this.create({
+        email,
+        nickname,
+        profile,
+      });
+      
+      console.log("===========> ~ saveUserInfo:", saveUserInfo)
+      await this.save(saveUserInfo);
+    }
+  }
 }

@@ -159,21 +159,23 @@ export class UsersService {
   //   return await this.usersRepository.dummpyData();
   // }
 
-  // async dummyData(
-  //   user_id: number,
-  //   email: string,
-  //   nickname: string,
-  //   profile: string,
-  // ) {
-  //   for (let i = 0; i < 10; i++) {
+  async dummyData() {
+    const numberOfUsers = 2000;
+    const dummyUsers: UsersEntity[] = [];
 
-  //     for(let j=0; j<10; j++){
-  //       user_id = 4+j
-        
-  //     }
 
-  //   }
-    
-  //   return 'ok';
-  // }
+    for (let i = 0; i < numberOfUsers; i++) {
+      // 더미 데이터 생성
+      const user: UsersEntity = new UsersEntity();
+
+      user.email = `user${i}@example.com`;
+      user.nickname = `User${i}`;
+      user.profile = `image_${i}.jpg`;
+
+      dummyUsers.push(user);
+    }
+
+    // 생성한 더미 데이터를 user 테이블에 저장
+    await this.usersRepository.dummyData(dummyUsers);
+  }
 }

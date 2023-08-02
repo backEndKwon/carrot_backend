@@ -8,6 +8,7 @@ import { PostsRepository } from './posts.repository';
 import { EntityManager, In } from 'typeorm';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { BizsRepository } from 'src/bizs/bizs.repository';
+import { PostsEntity } from './posts.entity';
 
 @Injectable()
 export class PostsService {
@@ -114,7 +115,7 @@ export class PostsService {
           await this.updateSoldStatus(post_id);
           // 4-4 biz table 업데이트
           await this.postsRepository.saveBiz(user_id, post_id, biz_price);
-          return '입찰 성공'
+          return '입찰 성공';
         },
       );
     } catch (error) {
@@ -154,7 +155,7 @@ export class PostsService {
 
       if (!bizInfo || bizInfo.length === 0) {
         throw new NotFoundException('해당 게시글 입찰내역 없음');
-            }
+      }
 
       // 현재 시간과 생성일자(createdAt) 사이의 차이를 계산하여 가장 가까운 값을 찾습니다.
       const currentTime = new Date();
@@ -193,8 +194,7 @@ export class PostsService {
   async getAllBizPost(post_id: number) {
     const bizInfo = await this.bizsRepository.getAllBizPost(post_id);
     try {
-      if (bizInfo.length === 0)
-      throw new NotFoundException('해당 게시글 없음');
+      if (bizInfo.length === 0) throw new NotFoundException('해당 게시글 없음');
       console.log('5-1===========> ~ bizInfo:', bizInfo);
       return bizInfo;
     } catch (error) {
@@ -205,4 +205,33 @@ export class PostsService {
       }
     }
   }
+
+  // //6. 게시글 생성 더미데이터
+  // async dummyData() {
+  //   const numberOfUsers = 2000;
+  //   const dummyPost: PostsEntity[] = [];
+
+  //   for (let i = 0; i < numberOfUsers; i++) {
+  //     // 더미 데이터 생성
+  //     let user_id = Math.floor(Math.random() * 1000)+1
+
+  //     const post: PostsEntity = new PostsEntity();
+
+  //     post.title = `${i}번째 title 제목`;
+  //     post.content = `${i}내용입니다. 얼른 사세요`;
+  //     post.min_price = user_id*10;
+  //     post.user_id = user_id;
+  //     post.dueToDate = `2023-08-05`;
+  //     post.photo_ip = [`image_${i}.jpg`,`image_${i+1}.jpg`];
+  //     dummyPost.push(post);
+  //   }
+
+  //   // 생성한 더미 데이터를 user 테이블에 저장
+  //   await this.postsRepository.dummyData(dummyPost);
+  // }
+
+  // async dummyBizData() {
+
+  //   await this.bizsRepository.dummyBizData();
+  // }
 }

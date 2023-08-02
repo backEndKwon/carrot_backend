@@ -75,13 +75,9 @@ export class UsersController {
     // const checkInfo = { accessToken, userId };
     // return await this.usersService.getUserInfo(checkInfo);
   }
-  // @Get('/dummpyData')
-  // async dummpyData(
-  //   user_id: number,
-  //   email: string,
-  //   nickname: string,
-  //   profile: string,
-  // ) {
-  //   return await this.usersService.dummyData(user_id, email, nickname, profile);
-  // }
+  @Get('/dummyData')
+  async dummyData() {
+    return await this.usersService.dummyData();
+  }
+
 }
