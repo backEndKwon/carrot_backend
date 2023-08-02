@@ -31,6 +31,7 @@ export class PostsController {
   // 2.게시글 전체조회
   @Get('/posts')
   async getAllPosts() {
+    console.log('===========> ~ getAllPosts');
     return await this.postsService.getAllPosts();
   }
 

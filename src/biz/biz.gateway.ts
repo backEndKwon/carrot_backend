@@ -23,7 +23,7 @@ export class BizGateway
 
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('BizGateway');
- rks
+
   @SubscribeMessage('message')
   handleMessage(client: Socket, payload: any): string {
     const { post_id, biz_price } = payload;
@@ -36,11 +36,11 @@ export class BizGateway
       socket.on('sendPrice', (data) => {
         console.log('sendPrice==', data);
         socket.emit('sendPriceToClient', data);
-        const { user_id, post_id, biz_price } = data;
-        console.log("소켓===========> ~ price:", biz_price)
-        console.log("소켓===========> ~ post_id:", post_id)
-        console.log('소켓===========> ~ price:', biz_price);
-        this.PostsService.updateBizPrice(user_id, post_id, biz_price);
+        const { user_id, post_id, price } = data;
+        console.log('소켓===========> ~ price:', price);
+        console.log('소켓===========> ~ post_id:', post_id);
+        console.log('소켓===========> ~ price:', price);
+        this.PostsService.updateBizPrice(user_id, post_id, price);
       });
     });
 
