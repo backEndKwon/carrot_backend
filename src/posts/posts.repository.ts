@@ -83,6 +83,7 @@ export class PostsRepository extends Repository<PostsEntity> {
       post_id,
       biz_price,
     });
+    console.log("1111")
     await this.bizsRepository.save(saveBiz);
   }
 
@@ -100,21 +101,21 @@ export class PostsRepository extends Repository<PostsEntity> {
     return expiredPosts;
   }
 
-  // //6. 게시글 생성 더미데이터
-  //   async dummyData(dummyUsers) {
-  //     for (const user of dummyUsers) {
-  //       let { title, content, min_price, user_id, dueToDate, photo_ip } = user;
-  //       const saveUserInfo = this.create({
-  //         user_id,
-  //         title,
-  //         content,
-  //         min_price,
-  //         dueToDate,
-  //         photo_ip
-  //       });
+  //6. 게시글 생성 더미데이터
+    async dummyData(dummyUsers) {
+      for (const user of dummyUsers) {
+        let { title, content, min_price, user_id, dueToDate, photo_ip } = user;
+        const saveUserInfo = this.create({
+          user_id,
+          title,
+          content,
+          min_price,
+          dueToDate,
+          photo_ip
+        });
 
-  //       console.log('===========> ~ saveUserInfo:', saveUserInfo);
-  //       await this.save(saveUserInfo);
-  //     }
-  //   }
+        console.log('===========> ~ saveUserInfo:', saveUserInfo);
+        await this.save(saveUserInfo);
+      }
+    }
 }

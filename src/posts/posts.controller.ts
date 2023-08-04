@@ -71,11 +71,11 @@ export class PostsController {
     return await this.postsService.getAllBizPost(post_id);
   }
 
-// //6. 게시글 생성 더미데이터
-// @Get('/dummyData')
-//   async dummyData() {
-//     return await this.postsService.dummyData();
-//   }
+//6. 게시글 생성 더미데이터
+@Get('/dummyData')
+  async dummyData() {
+    return await this.postsService.dummyData();
+  }
 
 //   //7. 가격입찰 더미데이터
 //   @Get('/dummyData/biz')
