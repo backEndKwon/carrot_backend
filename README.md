@@ -7,6 +7,7 @@
 ###  ● Homepage  : [상한당근](https://backendkwon.shop)
 ###  ● Pro. log  : [Notion](https://www.notion.so/TradeBiz-8f637592b0f8435197208a7a1625498f?pvs=4) 
 ###  ● Reference : 야후경매, 업비트, 당근마켓
+###  ● 장치 사양 : RAM 8G, i5, 코어 4, HDD 219GB
 
 <br>
 
