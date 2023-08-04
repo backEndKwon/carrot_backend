@@ -105,14 +105,17 @@ export class PostsService {
           if (existPost === null || !existPost) {
             throw new HttpException('error', HttpStatus.BAD_REQUEST);
           }
-          if (biz_price === null || existPost.biz_price >= biz_price) {
+          if (existPost.biz_price >= biz_price) {
             throw new HttpException(
-              'biz_price가 이전 값보다 크거나 같아야 합니다.',
+              '입찰가는 현재가격보다 커야됨',
               HttpStatus.BAD_REQUEST,
             );
           }
-          if (existPost.min_price >= biz_price) {
-            throw new HttpException('error', HttpStatus.BAD_REQUEST);
+          if (existPost.min_price > biz_price) {
+            throw new HttpException(
+              '입찰가는 최초가격보다 커야됨',
+              HttpStatus.BAD_REQUEST,
+            );
           }
           //정상적으로 입력되었을 경우
           // 4-1 post 테이블 biz_count += 1
@@ -204,8 +207,6 @@ export class PostsService {
   async getAllBizPost(post_id: number) {
     const bizInfo = await this.bizsRepository.getAllBizPost(post_id);
     try {
-      if (bizInfo.length === 0)
-        throw new HttpException('error', HttpStatus.BAD_REQUEST);
       console.log('5-1===========> ~ bizInfo:', bizInfo);
       return bizInfo;
     } catch (error) {
